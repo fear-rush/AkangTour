@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/alt-text */
 import React from 'react';
 import Layout from '../components/Layout';
-import { packets } from '../utils/data';
+import { data } from '../utils/data';
 import Image from 'next/image';
 import {
   MapPinIcon,
@@ -86,7 +86,7 @@ const ProductListScreen = () => {
             <ChevronLeftIcon className="w-6 h-6 text-white" />
           </div>
         </div>
-        {packets.map((data, index) => (
+        {data.products.map((data, index) => (
           <div key={index}>
             <SwiperSlide>
               <div className="flex flex-col justify-center items-center shadow-lg mx-8 border-2 rounded-lg">
@@ -149,7 +149,7 @@ const ProductListScreen = () => {
         <h1 className="font-semibold text-2xl lg:my-10">Others Packet</h1>
       </div>
       <div className="sm:grid sm:grid-cols-2 sm:gap-4 lg:grid-cols-4 lg:gap-2 mx-6">
-        {packets.map((data, index) => (
+        {data.products.map((data, index) => (
           <div key={index} className="mb-5">
             <div className="flex flex-col justify-center items-center shadow-lg mx-8 border-2 rounded-lg lg:mx-2">
               <div className="min-w-full min-h-full bg-white rounded-lg">

@@ -1,17 +1,29 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable jsx-a11y/alt-text */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import Link from 'next/link';
 import Image from 'next/image';
+import { signIn, useSession } from 'next-auth/react';
+import { useRouter } from 'next/router';
+import { toast } from 'react-toastify';
 
 import Layout from '../components/Layout';
 import Modal from '../components/Modal';
+import { getError } from '../utils/getError';
 
 import splitframe from '../public/signin/frame2.png';
 
 const SignInScreen = () => {
   const [open, setOpen] = useState(false);
+  const { data: session } = useSession();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (session?.user) {
+      router.push('/productlist');
+    }
+  }, [router, session]);
 
   const {
     handleSubmit,
@@ -19,8 +31,19 @@ const SignInScreen = () => {
     formState: { errors },
   } = useForm();
 
-  const submitHandler = ({ email, password }) => {
-    console.log(email, password);
+  const submitHandler = async ({ email, password }) => {
+    try {
+      const result = await signIn('credentials', {
+        redirect: false,
+        email: email,
+        password: password,
+      });
+      if (result.error) {
+        toast.error(result.error);
+      }
+    } catch (err) {
+      toast.error(getError(err));
+    }
   };
 
   return (
